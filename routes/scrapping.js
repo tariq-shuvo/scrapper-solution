@@ -12,7 +12,7 @@ router.post('/loan', async (req, res, next) => {
   try {
     const browser = await puppeteer.launch(
       {
-        headless: false,
+        headless: true,
         ignoreHTTPSErrors: true,
       }
     );
@@ -26,13 +26,10 @@ router.post('/loan', async (req, res, next) => {
     await page.setViewport({ width: 1440, height: 744 });
     await navigationPromise;
 
-    await page.waitForSelector('div>.items-start', {timeout: 1000000, waitNetworkIdle: true});
+    await page.waitForSelector('div>.items-start', {timeout: 30000, waitNetworkIdle: true});
 
     const content = await page.content();
 
-    /**
-     * Load content in cheerio.
-     */
     const $ = cheerio.load(content);
 
     let titles = ['howrare', 'moonrank']
@@ -53,7 +50,13 @@ router.post('/loan', async (req, res, next) => {
       result[titles_two[idx + 1]] = value;
     })
 
-    res.json(result);
+    $('.mt-4 > div > .text-red-500').slice(0, 1).each((idx, elem) => {
+      const value = $(elem).text();
+      result[titles_two[idx + 2]] = value;
+    })
+
+    res.status(200).json(result);
+
     // close everything
     await page.close();
 
@@ -70,6 +73,13 @@ router.post('/loan', async (req, res, next) => {
     
     await browser.close();
   } catch (error) {
+    res.status(400).json({
+      errors: [
+        {
+          msg: "provided url is not valid for scrapping"
+        }
+      ]
+    });
     console.log(error);
   }
 });
