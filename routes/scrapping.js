@@ -14,6 +14,7 @@ router.post('/loan', async (req, res, next) => {
       {
         headless: true,
         ignoreHTTPSErrors: true,
+        args: ['--no-sandbox']
       }
     );
     const page = await browser.newPage();
