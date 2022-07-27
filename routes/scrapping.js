@@ -63,10 +63,8 @@ router.post('/loan', async (req, res, next) => {
       })
     }
 
-    res.status(200).json(result);
-
     // close everything
-    // await page.close();
+    await page.close();
 
     // console.log(page)
     // await page.waitForSelector('ul li h3 a');
@@ -80,6 +78,8 @@ router.post('/loan', async (req, res, next) => {
     // console.log(`Job Titles on first page of Workable are: ${jobTitles.join(', ')}`);
     
     await browser.close();
+
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json({
       errors: [
