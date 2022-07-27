@@ -66,7 +66,7 @@ router.post('/loan', async (req, res, next) => {
     res.status(200).json(result);
 
     // close everything
-    await page.close();
+    // await page.close();
 
     // console.log(page)
     // await page.waitForSelector('ul li h3 a');
