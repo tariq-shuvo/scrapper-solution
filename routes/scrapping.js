@@ -55,6 +55,13 @@ router.post('/loan', async (req, res, next) => {
       result[titles_two[idx + 2]] = value;
     })
 
+    if(result["LFT"] == undefined){
+      $('.mt-4 > div > .text-sm').slice(1, 2).each((idx, elem) => {
+        const value = $(elem).text();
+        result[titles_two[idx + 2]] = value;
+      })
+    }
+
     res.status(200).json(result);
 
     // close everything
