@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "server": "nodemon ./bin/www",
-    "heroku-postbuild": "cd node_modules/puppeteer && npm install && heroku buildpacks:add jontewks/puppeteer"
+    "heroku-postbuild": "heroku buildpacks:add jontewks/puppeteer"
   },
   "dependencies": {
     "axios": "^0.27.2",
